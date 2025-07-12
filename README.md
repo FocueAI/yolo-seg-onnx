@@ -79,7 +79,7 @@ else:
 
 ## 4. 结果
 
-<img src="images/test.jpg"/><img src="./results.jpg" />
+<img src="test/test.jpg"/><img src="test/results.jpg" />
 
 ## 5. 贡献者
 
