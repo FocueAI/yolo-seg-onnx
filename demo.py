@@ -16,7 +16,13 @@ def main():
     onnx_path = "./models/best.onnx"
 
     try:
-        model = YOLOSeg(onnx_model=onnx_path)
+        model = YOLOSeg(
+            onnx_model=onnx_path,
+            classes=["Grass", "Ground", "Ramp", "Road", "Stairs"],
+            conf=0.25,
+            iou=0.7,
+            imgsz=640,
+        )
     except Exception as e:
         print(f"加载 ONNX 模型时发生错误：{e}")
         print("请确保您有一个有效的 ONNX 模型文件路径，例如 'best.onnx'")

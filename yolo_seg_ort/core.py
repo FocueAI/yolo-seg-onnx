@@ -14,12 +14,23 @@ class Results:
         names: List[str],
         boxes: np.ndarray,
         masks: np.ndarray = None,
+        nc: int = 5,
+        colors: List[Tuple[int, int, int]] = [
+            (255, 0, 0),
+            (0, 255, 0),
+            (0, 0, 255),
+            (255, 255, 0),
+            (255, 0, 255),
+            (0, 255, 255),
+        ],
     ):
         self.orig_img = orig_img.copy()
         self.path = path
         self.names = names
         self.boxes = boxes  # N, 6 (x1, y1, x2, y2, conf, cls_id)
         self.masks = masks  # N, H_orig, W_orig (binary masks)
+        self.nc = nc
+        self.colors = colors
 
     def show(
         self, window_name: str = "YOLO Segmentation Result", show_mask: bool = True
@@ -30,33 +41,26 @@ class Results:
     def save(self, path: str):
         cv2.imwrite(path, self.legend(show_mask=True))
 
-    def legend(self, show_mask=True):
+    def legend(
+        self,
+        show_mask=True,
+    ):
 
         display_img = self.orig_img.copy()
 
         h, w, _ = display_img.shape
 
-        colors = [
-            (255, 0, 0),
-            (0, 255, 0),
-            (0, 0, 255),
-            (255, 255, 0),
-            (255, 0, 255),
-            (0, 255, 255),
-        ]
-        num_colors = len(colors)
+        num_colors = len(self.colors)
 
         outline_color = (0, 0, 255)
         outline_thickness = 8
 
         if show_mask and self.masks is not None and self.masks.shape[0] > 0:
             for i, mask in enumerate(self.masks):
-                cls_id = int(self.boxes[i, 5])
-                if cls_id != 1 and cls_id != 4:
-                    continue
+                cls_id = int(self.boxes[i, self.nc])
 
-                color_idx = int(self.boxes[i, 5]) % num_colors
-                mask_color = colors[color_idx]
+                color_idx = int(self.boxes[i, self.nc]) % num_colors
+                mask_color = self.colors[color_idx]
 
                 binary_mask = mask.astype(np.uint8) * 255
 
@@ -74,13 +78,11 @@ class Results:
 
         for i, box in enumerate(self.boxes):
             x1, y1, x2, y2, conf, cls_id = map(int, box[:6])
-            if cls_id != 1 and cls_id != 4:
-                continue
 
             conf_val = box[4]
 
             color_idx = int(cls_id) % num_colors
-            box_color = colors[color_idx]
+            box_color = self.colors[color_idx]
 
             cv2.rectangle(display_img, (x1, y1), (x2, y2), box_color, 2)
 
@@ -123,13 +125,14 @@ class YOLOSeg:
         conf: float = 0.25,
         iou: float = 0.7,
         imgsz: Union[int, Tuple[int, int]] = 640,
+        classes: List[str] = ["Grass", "Ground", "Ramp", "Road", "Stairs"],
     ):
         self.session = ort.InferenceSession(
             onnx_model,
             providers=["CPUExecutionProvider"],
         )
         self.imgsz = (imgsz, imgsz) if isinstance(imgsz, int) else imgsz
-        self.classes = ["Grass", "Ground", "Ramp", "Road", "Stairs"]
+        self.classes = classes
         self.conf = conf
         self.iou = iou
 
