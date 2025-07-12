@@ -52,8 +52,12 @@ pip install -r requirements.txt
 
 ```python
 from yolo_seg_ort import YOLOSeg
+import cv2
 
 onnx_path = "best.onnx"
+image_path = "test.jpg"
+
+image = cv2.imread(image_path)
 
 model = YOLOSeg(
     onnx_model=onnx_path,
