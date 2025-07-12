@@ -1,6 +1,5 @@
 # yolo-seg-ort
 
-采用纯ONNX Runtime实现YOLOv11-seg的onnx模型。
 
 <!-- PROJECT SHIELDS -->
 ![Contributors](https://img.shields.io/github/contributors/7emotions/yolo-seg-ort.svg?style=flat-square)
@@ -14,11 +13,11 @@
 <br />
 
 <p align="center">  <a href="https://github.com/7emotions/yolo-seg-ort/">
-  <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <img src="images/logo.png" alt="Logo">
   </a>
   <h3 align="center">yolo-seg-ort</h3>
   <p align="center">
-    Pattern Recognition and Machine Learning.<br />
+    采用纯ONNX Runtime实现YOLOv11-seg的onnx模型。<br />
     <a href="https://github.com/7emotions/yolo-seg-ort"><strong>探索本项目的文档 »</strong></a><br />
     <br />
     <a href="https://github.com/7emotions/yolo-seg-ort/releases">查看发布</a>
