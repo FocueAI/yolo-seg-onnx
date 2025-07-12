@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["yolo_seg_ort"]
+
+[project]
+name = "yolo-seg-ort"
+version = "0.1.0"
+description = "Deploy YOLO-Seg ONNX model with ONNX Runtime"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Lorenzo Feng", email = "lorenzo.feng@njust.edu.cn" },
+]
+license-files = ["LICENSE"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["yolo-seg", "onnx", "onnxruntime"]
+dependencies = [
+    "onnxruntime>=1.17.1",
+    "opencv-python>=4.11.0",
+    "numpy>=1.23.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/7emotions/yolo-seg-ort"
+Documentation = "https://github.com/7emotions/yolo-seg-ort"
+Source = "https://github.com/7emotions/yolo-seg-ort"
+Issues = "https://github.com/7emotions/yolo-seg-ort/issues"
+
