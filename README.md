@@ -27,6 +27,7 @@
     <a href="https://github.com/7emotions/yolo-seg-ort/issues">提出新特性</a>
   </p>
 </p>
+
 ## 1. 模型转换
 
 ```python
@@ -89,7 +90,7 @@ if __name__ == "__main__":
 
 ## 4. 结果
 
-![results](./results.jpg)
+<img src="images/test.jpg"/><img src="./results.jpg" />
 
 ## 5. 贡献者
 
