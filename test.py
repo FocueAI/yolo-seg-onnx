@@ -21,23 +21,23 @@ class shelf_divider:
         results = self.model(image)
         line_l = []
         for result in results:
-            detect_zone = result.masks[0] # [h,w]
-            detect_zone = detect_zone.astype(np.uint8)
-            
-            
-            contours, _ = cv2.findContours(detect_zone*255,
-                                   cv2.RETR_EXTERNAL,
-                                   cv2.CHAIN_APPROX_SIMPLE)
-            largest = max(contours, key=cv2.contourArea)
-            rect = cv2.minAreaRect(largest)
-            box  = cv2.boxPoints(rect)     # 4 个角点
-            box  = np.int32(box)
-            edges = [np.linalg.norm(box[i] - box[(i+1) % 4]) for i in range(4)]
-            longest_edge_idx = np.argmax(edges)
-            p1, p2 = box[longest_edge_idx].tolist(), box[(longest_edge_idx+1) % 4].tolist()
-            # draw.line([tuple(p1), tuple(p2)], fill='red', width=3)
-            line = [tuple(p1), tuple(p2)]
-            line_l.append(line)  
+            detect_zones = result.masks # [h,w]
+            for index in range(detect_zones.shape[0]):
+                detect_zone = detect_zones[index].astype(np.uint8)
+
+                contours, _ = cv2.findContours(detect_zone*255,
+                                    cv2.RETR_EXTERNAL,
+                                    cv2.CHAIN_APPROX_SIMPLE)
+                largest = max(contours, key=cv2.contourArea)
+                rect = cv2.minAreaRect(largest)
+                box  = cv2.boxPoints(rect)     # 4 个角点
+                box  = np.int32(box)
+                edges = [np.linalg.norm(box[i] - box[(i+1) % 4]) for i in range(4)]
+                longest_edge_idx = np.argmax(edges)
+                p1, p2 = box[longest_edge_idx].tolist(), box[(longest_edge_idx+1) % 4].tolist()
+                # draw.line([tuple(p1), tuple(p2)], fill='red', width=3)
+                line = [tuple(p1), tuple(p2)]
+                line_l.append(line)  
         if is_show: self.show(image, line_l)
         return line_l   
     
@@ -56,7 +56,7 @@ class shelf_divider:
     
           
             
-image_path = r"E:\RFID\projects\songtao_jiaojie\sigmodel_test\downloaded_images_bohai_keji\20250815\9\FL0102001-01-14.jpg.jpg"
+image_path = r"E:\RFID\projects\songtao_jiaojie\sigmodel_test\downloaded_images_bohai_keji\20250815\9\FL0202002-06-11.jpg.jpg"
 model_path = r"D:\projects\RFID\OCR\seg-server\yolo-seg-ort\test\shelf_best.onnx"
 lines_l = shelf_divider(model_path=model_path).predict(image_path, is_show=True) 
 

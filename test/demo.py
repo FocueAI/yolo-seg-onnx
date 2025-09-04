@@ -10,7 +10,7 @@ from yolo_seg_ort.core import YOLOSeg
 
 
 def main():
-    image_path = r"E:\RFID\projects\songtao_jiaojie\sigmodel_test\downloaded_images_bohai_keji\20250815\9\FL0102001-01-14.jpg.jpg"
+    image_path = r"E:\RFID\projects\songtao_jiaojie\sigmodel_test\downloaded_images_bohai_keji\20250815\9\FL0202002-06-11.jpg.jpg"
     try:
         image = cv2.imread(image_path)
         if image is None:
