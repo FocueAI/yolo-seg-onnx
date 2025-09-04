@@ -1,9 +1,16 @@
-import cv2
+import cv2,os
+
+import sys
+import pathlib
+__dir__ = pathlib.Path(os.path.abspath(__file__))
+sys.path.append(str(__dir__))
+sys.path.append(str(__dir__.parent.parent))
+
 from yolo_seg_ort.core import YOLOSeg
 
 
 def main():
-    image_path = "./images/test.jpg"
+    image_path = r"E:\RFID\projects\songtao_jiaojie\sigmodel_test\downloaded_images_bohai_keji\20250815\9\FL0102001-01-14.jpg.jpg"
     try:
         image = cv2.imread(image_path)
         if image is None:
@@ -13,12 +20,12 @@ def main():
         print("请确保您有一个可用的图像文件路径，例如 'sample_image.jpg'")
         return
 
-    onnx_path = "./models/best.onnx"
+    onnx_path = r"D:\projects\RFID\OCR\seg-server\yolo-seg-ort\test\shelf_best.onnx"
 
     try:
         model = YOLOSeg(
             onnx_model=onnx_path,
-            classes=["Grass", "Ground", "Ramp", "Road", "Stairs"],
+            classes=["shelf"],
             conf=0.25,
             iou=0.7,
             imgsz=640,
